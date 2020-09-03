@@ -2,6 +2,7 @@ package a20_9_3_JDBC;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class JDBCTest1 {
@@ -11,14 +12,22 @@ public class JDBCTest1 {
 		String url="jdbc:oracle:thin:@127.0.0.1:1521:xe";
 		String user="system";
 		String password="123456";
+		String sql="select * from member";
 		
 		Class.forName(driver); //class 파일을 메모리로 가져오는 역할을 함
 								//1순위)) DB드라이버파일을 로딩
 		
-		Connection con=DriverManager.getConnection(url,user,password);
+		Connection con=DriverManager.getConnection(url,user,password);//2)연결고리
 		Statement stmt=con.createStatement(); //3)문장통
-		System.out.println("OK");
-
+		ResultSet rs/*(결과통)*/=stmt.executeQuery(sql); // 4)빈 문장통에 sql
+		while(rs.next()) {
+		System.out.print(rs.getString(1)+"\t");
+		System.out.print(rs.getString(2)+"\t");
+		System.out.print(rs.getString(3)+"\t");
+		System.out.print(rs.getString(4)+"\t");
+		System.out.println(rs.getInt(5));
+		
 	}
 
+}
 }
