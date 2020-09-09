@@ -14,10 +14,10 @@ insert into member(code, name, id, pwd, age)
  values('1002', '이장미', 'rose', '2222', 20);
  
 insert into member(code, name, id, pwd, age)
- values('1002', '김백합', 'lily', '333', 18);
+ values('1003', '김백합', 'lily', '333', 18);
  
 insert into member
- values('1003','홍길동','gildong','444',18);
+ values('1004','홍길동','gildong','444',18);
  --조회(검색) select 필드명들 from 테이블명;
  select * from member;
  select code, name from member;
@@ -28,7 +28,7 @@ insert into member
  select * from member where name like '홍%';
  select * from member where name like '%홍%';
  select * from member where name like '김__' and code='1004';
- select * from member order by name asc;
+ select * from member order by code asc;
  select * from member order by name desc;
  select name, '당신의나이는', age from member;
  select name, age+10 from member;
@@ -69,6 +69,8 @@ insert into member
  select * from member;
  
  alter table member drop column email;
+ 
+ alter table member modify( code varchar2(10) primary key);
  
  drop table member;
  
