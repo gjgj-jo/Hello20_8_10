@@ -26,7 +26,7 @@ public class GameChat extends Applet implements ActionListener, Runnable {
 
 	public void init() {
 		try {
-			mySocket=new Socket("192.168.0.1", 2587); //서버의 ip, 포트번호를 통해 소켓 생성
+			mySocket=new Socket("192.168.0.6", 2587); //서버의 ip, 포트번호를 통해 소켓 생성
 			//소켓을 통한 출력스트림
 			out=new PrintWriter(new OutputStreamWriter(mySocket.getOutputStream()));
 			//소켓을 통한 입력스트림
@@ -57,7 +57,7 @@ public class GameChat extends Applet implements ActionListener, Runnable {
 	}
 
 	public void stop() {
-		if((clock!=null)&&(clock.isAlive())) {
+		if((clock!=null)&&(clock.isAlive())) {	//"LOGOUT|별명"을 출력스트림으로 프린트
 			clock=null;
 		}
 		out.println("LOGOUT|"+name.getText());
@@ -72,14 +72,14 @@ public class GameChat extends Applet implements ActionListener, Runnable {
 	}
 		}
 
-	public void run() {
-		out.println("LOGIN|"+mySocket);
+	public void run() { //스레드에서 start()하면 실행됨
+		out.println("LOGIN|"+mySocket);//"LOGIN|소켓" 출력스트림으로 프린트됨
 		memo.append("[접속] "+getCodeBase().toString()+"\n");
 		try {
-			while(true) {
-				String msg=in.readLine();
-				if(!msg.equals("")&& !msg.equals(null)) {
-					memo.append(msg+"\n");
+			while(true) {	//무한루프
+				String msg=in.readLine();	//소켓을 통해 입력받아서 msg에 저장
+				if(!msg.equals("")&& !msg.equals(null)) {//저장받은것이 공백이 아니면(값이 있으면)
+					memo.append(msg+"\n");		//msg 내용이 memo텍스트에리어에 추가됨
 				}
 			}
 		} catch (Exception e) {
@@ -92,7 +92,8 @@ public void actionPerformed(ActionEvent e) {//엔터를 치면 또 클릭하면 
 			String data=input.getText(); //input에 입력된 값을 data에 저장하라
 			input.setText("");	//input은 공백으로 생성
 			out.println("TALK|"+name.getText()+": "+data);
-			out.flush();
+			//출력스트림으로 "TALK| 별명 : 안녕하세요" 트리트됨
+			out.flush(); //출력스트림에 보내지지않은 것을 모두 비움
 			
 		}
 	}
