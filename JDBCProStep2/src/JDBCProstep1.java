@@ -14,9 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 
 
 //1단계: implements ActionListener를 상속받는다.
@@ -26,7 +23,6 @@ public class JDBCProstep1 implements ActionListener {
 	private JTextField txtNo;
 	private JTextField txtName;
 	private JTextField txtEmail;
-	private JTextField txtAddress;
 	private JTextField txtTel;
 	private JTable table;
 	private JButton btnTotal, btnAdd, btnSearch, btnDel, btnCancel, btnUpdate;
@@ -52,15 +48,10 @@ public class JDBCProstep1 implements ActionListener {
 	PreparedStatement pstmtSearch, pstmtSearchScroll;
 	
 	String sqlTotal="select * from customer1";
-	String sqlInsert="insert into customer1  values(?,?,?,?,?)";
+	String sqlInsert="insert into customer1  values(?,?,?,?)";
 	String sqlDelete="delete from customer1 where name=?";
-	String sqlUpdate="update customer1 set email=?, tel=?, address=? where code=?";
+	String sqlUpdate="update customer1 set email=?, tel=? where code=?";
 	String sqlSearch="select * from customer1 where name=?";
-	private JMenuBar menuBar;
-	private JMenu mnNewMenu;
-	private JMenuItem mntmNewMenuItem;
-	private JMenu mnNewMenu_1;
-	private JMenuItem mntmNewMenuItem_1;
 
 	/**
 	 * Launch the application.
@@ -106,7 +97,7 @@ public class JDBCProstep1 implements ActionListener {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("\uACE0\uAC1D\uAD00\uB9AC\uD504\uB85C\uADF8\uB7A8");
-		frame.setBounds(100, 100, 689, 507);
+		frame.setBounds(100, 100, 571, 459);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -125,11 +116,6 @@ public class JDBCProstep1 implements ActionListener {
 		JLabel lblNewLabel_3 = new JLabel("전화번호");
 		lblNewLabel_3.setBounds(29, 177, 57, 15);
 		frame.getContentPane().add(lblNewLabel_3);
-		
-		JLabel lblNewLabel_4 = new JLabel("주소");
-		lblNewLabel_4.setBounds(29, 225, 57, 15);
-		frame.getContentPane().add(lblNewLabel_4);
-		
 		
 		txtNo = new JTextField();
 		txtNo.setBounds(131, 44, 116, 21);
@@ -151,13 +137,8 @@ public class JDBCProstep1 implements ActionListener {
 		frame.getContentPane().add(txtTel);
 		txtTel.setColumns(10);
 		
-		txtAddress = new JTextField();
-		txtAddress.setBounds(131, 222, 116, 21);
-		frame.getContentPane().add(txtAddress);
-		txtAddress.setColumns(10);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(282, 46, 379, 252);
+		scrollPane.setBounds(307, 38, 221, 254);
 		frame.getContentPane().add(scrollPane); //actionlistener을 상속받는다
 		
 		table = new JTable();
@@ -165,48 +146,33 @@ public class JDBCProstep1 implements ActionListener {
 		
 		//전체보기
 		btnTotal = new JButton("전체보기");
-		btnTotal.setBounds(12, 372, 97, 23);
+		btnTotal.setBounds(11, 372, 97, 23);
 		frame.getContentPane().add(btnTotal);
 		
 		//추가
 		btnAdd = new JButton("추가");	
-		btnAdd.setBounds(131, 372, 97, 23);
+		btnAdd.setBounds(120, 372, 97, 23);
 		frame.getContentPane().add(btnAdd);
 		
 		//삭제
 		btnDel = new JButton("삭제");
-		btnDel.setBounds(253, 372, 99, 23);
+		btnDel.setBounds(229, 372, 76, 23);
 		frame.getContentPane().add(btnDel);
 		
 		//검색
 		btnSearch = new JButton("검색");
-		btnSearch.setBounds(378, 372, 75, 23);
+		btnSearch.setBounds(317, 372, 64, 23);
 		frame.getContentPane().add(btnSearch);
 		
 		//취소
 		btnCancel = new JButton("취소");
-		btnCancel.setBounds(563, 372, 98, 23);
+		btnCancel.setBounds(473, 372, 70, 23);
 		frame.getContentPane().add(btnCancel);
 		
 		//수정
 		btnUpdate = new JButton("수정");
-		btnUpdate.setBounds(465, 372, 70, 23);
+		btnUpdate.setBounds(393, 372, 70, 23);
 		frame.getContentPane().add(btnUpdate);
-		
-		menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
-		
-		mnNewMenu = new JMenu("시스템");
-		menuBar.add(mnNewMenu);
-		
-		mntmNewMenuItem = new JMenuItem("종료");
-		mnNewMenu.add(mntmNewMenuItem);
-		
-		mnNewMenu_1 = new JMenu("배송관리");
-		menuBar.add(mnNewMenu_1);
-		
-		mntmNewMenuItem_1 = new JMenuItem("재고관리");
-		mnNewMenu_1.add(mntmNewMenuItem_1);
 		
 		//2단계: 컴포턴트
 		btnTotal.addActionListener(this);
@@ -217,22 +183,20 @@ public class JDBCProstep1 implements ActionListener {
 		btnUpdate.addActionListener(this);
 	}
 	//추가버튼의 DB
-	//String sqlInsert='insert into customer1 value(?,?,?,?,?)";
+	//String sqlInsert='insert into customer1 value(?,?,?,?)";
 	public void add() {
 		System.out.println("추가");
 		String no=txtNo.getText();
 		String name=txtName.getText();
 		String email=txtEmail.getText();
-		String address=txtAddress.getText();
 		String tel=txtTel.getText();
-		System.out.println(no+","+name+","+address+","+tel);
+		System.out.println(no+","+name+","+tel);
 		try {
 			pstmt=con.prepareStatement(sqlInsert);
 			pstmt.setInt(1, Integer.valueOf(no));
 			pstmt.setString(2, name);
 			pstmt.setString(3, email);
-			pstmt.setString(4, address);
-			pstmt.setString(5, tel);
+			pstmt.setString(4, tel);
 			int res=pstmt.executeUpdate();
 			if(res==1) System.out.println("성공");	
 			else System.out.println("실패");
@@ -304,7 +268,6 @@ public class JDBCProstep1 implements ActionListener {
 		System.out.println(txtName.getText());
 		String code=txtNo.getText();
 		String email=txtEmail.getText();
-		String address=txtAddress.getText();
 		String tel=txtTel.getText();
 		try {
 			pstmt=con.prepareStatement(sqlUpdate);
@@ -404,11 +367,9 @@ public class JDBCProstep1 implements ActionListener {
 		txtName.setText("");
 		txtEmail.setText("");
 		txtTel.setText("");
-		txtAddress.setText("");
 		txtNo.setEditable(false);
 		txtName.setEditable(false);
 		txtEmail.setEditable(false);
-		txtAddress.setEditable(false);
 		txtTel.setEditable(false);
 		
 		btnTotal.setEnabled(true);
@@ -432,17 +393,19 @@ public class JDBCProstep1 implements ActionListener {
 			txtName.setEditable(true);
 			txtEmail.setEditable(true);
 			txtTel.setEditable(true);
-			txtAddress.setEditable(true);
+			
 			btnAdd.setEnabled(true);
 			cmd=ADD;
 			break;
 		case DELETE:		
 				txtName.setEditable(true);//이름만 편집가능함
+				
 				btnDel.setEnabled(true);
 				cmd=DELETE;
 				break;
 		case SEARCH:
 			txtName.setEditable(true); //이름만 편집가능
+			
 			btnSearch.setEnabled(true); //Search버튼만 켜기
 			cmd=SEARCH;
 			break;
@@ -450,7 +413,7 @@ public class JDBCProstep1 implements ActionListener {
 			txtNo.setEditable(true);	//작성할 수 있도록
 			txtEmail.setEditable(true);
 			txtTel.setEditable(true);
-			txtAddress.setEditable(true);
+			
 			btnUpdate.setEnabled(true);
 			cmd=UPDATE;
 			break;
